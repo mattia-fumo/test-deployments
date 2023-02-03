@@ -1,0 +1,18 @@
+name: deploy
+
+concurrency: test
+
+on: deployment
+
+jobs:
+  deploy-test:
+    environment: test
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Await 1 minute
+        run: |
+          echo Deploying...
+          sleep 1m
+          echo Completed!
