@@ -13,17 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      # - name: Update deployment status (pending)
-      #   if: success()
-      #   uses: chrnorm/deployment-status@v2
-      #   with:
-      #     token: '${{ github.token }}'
-      #     state: 'pending'
-      #     deployment-id: ${{ github.events.deployment.id }}
+      - name: Update deployment status (pending)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          state: 'pending'
+          deployment-id: ${{ github.event.deployment.id }}
 
       - name: Deploy my app
         env:
-          DEPLOYMENT_EVENT: ${{ github.events.deployment }}
+          DEPLOYMENT_EVENT: ${{ github.event.deployment }}
         run: |
           # add your deployment code here
           echo Deploying...
@@ -37,7 +37,7 @@ jobs:
         with:
           token: '${{ github.token }}'
           state: 'success'
-          deployment-id: ${{ github.events.deployment.id }}
+          deployment-id: ${{ github.event.deployment.id }}
 
       - name: Update deployment status (failure)
         if: failure()
@@ -45,4 +45,4 @@ jobs:
         with:
           token: '${{ github.token }}'
           state: 'failure'
-          deployment-id: ${{ github.events.deployment.id }}
+          deployment-id: ${{ github.event.deployment.id }}
