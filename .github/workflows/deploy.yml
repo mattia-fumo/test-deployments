@@ -1,18 +1,37 @@
-name: deploy
-
-concurrency: test
+name: Deploy
 
 on: deployment
 
 jobs:
   deploy-test:
-    environment: test
-    
+    name: Deploy to test environment
+    if: ${{ github.event.deployment.environment }} == test
+    concurrency: test
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Await 1 minute
+      - uses: actions/checkout@v1
+
+      - name: Deploy my app
         run: |
+          # add your deployment code here
           echo Deploying...
           sleep 1m
-          echo Completed!
+          echo Done!
+
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          state: 'success'
+          deployment-id: ${{ github.events.deployment.id }}
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          state: 'failure'
+          deployment-id: ${{ github.events.deployment.id }}
