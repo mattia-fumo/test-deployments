@@ -7,7 +7,8 @@ jobs:
     name: Deploy to test environment
     if: ${{ github.event.deployment.environment }} == test
     concurrency: test
-
+    permissions:
+      deployments: write
     runs-on: ubuntu-latest
 
     steps:
@@ -22,12 +23,9 @@ jobs:
           deployment-id: ${{ github.event.deployment.id }}
 
       - name: Deploy my app
-        env:
-          DEPLOYMENT_EVENT: ${{ github.event.deployment }}
         run: |
           # add your deployment code here
           echo Deploying...
-          echo Event: $DEPLOYMENT_EVENT
           sleep 10s
           echo Done!
 
