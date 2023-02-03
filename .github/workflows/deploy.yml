@@ -28,7 +28,7 @@ jobs:
           # add your deployment code here
           echo Deploying...
           echo Event: $DEPLOYMENT_EVENT
-          sleep 1m
+          sleep 10s
           echo Done!
 
       - name: Update deployment status (success)
