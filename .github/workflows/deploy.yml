@@ -13,6 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Update deployment status (pending)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          state: 'pending'
+          deployment-id: ${{ github.events.deployment.id }}
+
       - name: Deploy my app
         run: |
           # add your deployment code here
